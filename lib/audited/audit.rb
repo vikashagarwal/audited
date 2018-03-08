@@ -181,9 +181,14 @@ module Audited
       nil # prevent stopping callback chains
     end
 
+    # def set_request_uuid
+    #   self.request_uuid ||= ::Audited.store[:current_request_uuid]
+    #   self.request_uuid ||= SecureRandom.uuid
+    # end
+
+    # Method defination changed by Vikash
     def set_request_uuid
-      self.request_uuid ||= ::Audited.store[:current_request_uuid]
-      self.request_uuid ||= SecureRandom.uuid
+      ::Audited.store[:current_request_uuid] || SecureRandom.uuid
     end
 
     def set_remote_address
