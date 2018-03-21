@@ -477,8 +477,7 @@ module Audited
 
       def write_audit(attrs)
         unless audit_associated_with.nil?
-          attrs[:associated] = send(audit_associated_with)
-          # attrs.merge!(build_associated_attr(attrs[:associated]))
+          attrs.merge!(build_associated_attr(send(audit_associated_with)))
         end
 
         self.audit_comment = nil
@@ -494,9 +493,9 @@ module Audited
       end
 
       # Custom method added made by Vikash
-      # def build_associated_attr(assoicated_object)
-      #   return { association_id: assoicated_object.id, association_type: assoicated_object.class.name }
-      # end
+      def build_associated_attr(assoicated_object)
+        return { association_id: assoicated_object.id, association_type: assoicated_object.class.name }
+      end
 
       CALLBACKS.each do |attr_name|
         alias_method "#{attr_name}_callback".to_sym, attr_name
